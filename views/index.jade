@@ -1,0 +1,20 @@
+extends layout
+block content
+  div(id='player', style='display: none;')
+    div
+    a(id='add-track')
+  input(id='search', placeholder='type to search', size=40)
+  hr
+  div(id='tracks')
+  script(src='http://code.jquery.com/jquery.js')
+  script(src='//connect.soundcloud.com/sdk.js')
+  script(src='/js/mustache.js')
+  script(src='/js/soundcloud.player.api.js')
+  script(src='/js/sc-player.js')
+  script(src='/js/search.js')
+  script(src='/socket.io/socket.io.js')
+  script(id='track-tpl', type='text/template')
+    div(class='sc-player loading sc-play')
+      div(class='sc-controls')
+        a(class='sc-play set-track', data-url='{{permalink_url}}', data-title='{{title}}') Play
+      div(style='padding: 8px 0 0 50px;') {{title}}

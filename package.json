@@ -1,0 +1,15 @@
+{
+  "name": "node-playlist",
+  "description": "Simple soundcloud powered music",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "session.socket.io": "*",
+    "connect": "*",
+    "connect-flash": "*",
+    "express": "3.x",
+    "jade": "*",
+    "mongoose": "*",
+    "socket.io": "*"
+  }
+}

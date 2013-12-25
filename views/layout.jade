@@ -1,0 +1,15 @@
+doctype html
+html
+  head
+    title #{locals.title} - Playlist
+    link(rel='stylesheet', href='/css/sc-player-minimal.css')
+    link(rel='stylesheet', href='/css/style.css')
+  body
+    header
+      h1 Node Playlist
+      p Running on node with Express and Jade
+      if locals.message
+        p #{locals.message}
+    .container
+      block content
+    footer
