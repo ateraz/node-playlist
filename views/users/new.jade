@@ -3,12 +3,12 @@ block content
   form.users(method='post', action='/users')
     div
       label User:
-        input(name='user[name]', value=locals.user.name || '')
+        input(name='user[name]', value='')
 
     div
       label Password:
         input(name='user[password]', value='', type='password')
     div
       input(type='submit', value='Sign up')
-      span \ or 
+      span  or 
         a(href='/login') Log In
