@@ -1,0 +1,81 @@
+@footer_height: 60px;
+
+html,
+body {
+  height: 100%;
+}
+
+#wrap {
+  min-height: 100%;
+  height: auto;
+  margin: 0 auto -@footer_height;
+  padding: 0 0 @footer_height;
+}
+
+footer {
+  height: @footer_height;
+}
+
+.row .span4 div { width: 300px; }
+
+.user-form {
+  div { margin-left: 0; }
+  button { margin-left: 15px; }
+}
+
+header h1 { border: 0;}
+
+.col-lg-3 {
+  border-left: 1px solid #eee;
+  h3 { margin-top: 1px;}
+}
+
+.navbar .row {
+  float: right;
+  padding: 13px 210px;
+  font-size: 120%;
+  i {
+    color: white;
+  }
+  a {
+    padding-left: 10px;
+  }
+}
+
+a.set-track {
+  cursor: pointer;
+}
+
+div.sc-player {
+  width: 60%;
+  float: left;
+  #tracks {
+    height: 100%;
+  }
+}
+
+input#search {
+  border-radius: 5px;
+  font-size: 22px;
+  font-style: italic;
+  line-height: 25px;
+}
+
+a#add-track {
+  background-image: url('img/plus-icon.png');
+  cursor: pointer;
+  display: block;
+  float: left;
+  height: 45px;
+  margin: 26px;
+  width: 45px;
+}
+
+a#add-track.added {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.sc-title { padding: 8px 0 0 50px; }
+
+#user-tracks { font-size: 65%; }

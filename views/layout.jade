@@ -1,15 +1,39 @@
 doctype html
-html
+html(lang='en')
   head
-    title #{locals.title} - Playlist
+    title #{title} - Playlist
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    link(rel='stylesheet', href='/css/bootstrap.min.css')
     link(rel='stylesheet', href='/css/sc-player-minimal.css')
-    link(rel='stylesheet', href='/css/style.css')
+    link(rel='stylesheet/less', href='/css/style.less')
+    script(src='/js/less.min.js')
+    script(src='/js/jquery.min.js')
+    script(src='/js/bootstrap.min.js')
+    script(src='/js/bootstrap-alert.js')
   body
-    header
-      h1 Node Playlist
-      p Running on node with Express and Jade
-      if locals.message
-        p #{locals.message}
-    .container
-      block content
+    #wrap
+      .container
+        if username
+          .navbar.navbar-inverse.navbar-fixed-top
+            .row
+              i Hi, #{username}!
+              a(href='/logout') Logout
+        header.page-header
+          h1 Node Playlist
+        if (error && error != '')
+          .row
+            .span4
+              .alert.alert-danger
+                a.close(data-dismiss='alert') ×
+                | #{error}
+        if (message && message != '')
+          .row
+            .span4
+              .alert.alert-success
+                a.close(data-dismiss='alert') ×
+                | #{message}
+        .row
+          block content
     footer
+      .container
+        p.muted.credit Running on node with Express and Jade

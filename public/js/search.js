@@ -1,3 +1,19 @@
+function Track(title, url, query) {
+  this.title = title;
+  this.url = url;
+  this.query = query;
+}
+
+Track.prototype.play = function(already_added) {
+  $('#player div').hide().empty().append(
+    $('<a></a>').attr({ href: this.url }).addClass('sc-player')
+  ).scPlayer({ autoPlay: true });
+
+  if (!already_added) $('#add-track').removeClass('added');
+  else $('#add-track').addClass('added');
+  $('.sc-pause, #player').removeClass('hidden');
+};
+
 $(document).ready(function() {
 
   var socket = io.connect(),
@@ -37,19 +53,14 @@ $(document).ready(function() {
   });
 
 
-  $( 'body' ).on('click', 'a.set-track', function() {
-    currentTrack = {
-      title: $(this).attr('data-title'),
-      permalink_url: $(this).attr('data-url'),
-      query: $('#search').val()
-    };
+  $('body').on('click', 'a.set-track', function() {
+    currentTrack = new Track(
+      $(this).attr('data-title'),
+      $(this).attr('data-url'),
+      $('#search').val()
+    );
 
-    $('#player div').hide().empty().append(
-      $('<a></a>').attr({ href: currentTrack.permalink_url }).addClass('sc-player')
-    ).scPlayer({ autoPlay: true });
-
-    $('#add-track').removeClass('added');
-    $('#player').show();
+    currentTrack.play($(this).is('#user-tracks a'));
   });
 
 
@@ -64,4 +75,8 @@ $(document).ready(function() {
     client_id: 'YOUR_CLIENT_ID'
   });
 
+  socket.emit('get-user-tracks');
+  socket.on('user-tracks', function(tracks){
+    if (tracks.length) containerRenderer($('#user-tracks'))(tracks);
+  });
 });

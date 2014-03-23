@@ -43,17 +43,17 @@ function checkAuth(req, res, next) {
 app.get('/', checkAuth, function(req, res) {
   res.render('index', {
     title: 'Home',
+    username: req.session.username,
     message: req.flash('info')
   });
 });
 
 app.get('/login', function(req, res) {
   res.render('login.jade', {
-    locals: {
-      title: 'Login',
-      user: new User(),
-      message: req.flash('error')
-    }
+    title: 'Login',
+    user: new User(),
+    error: req.flash('error'),
+    username: req.session.username ? req.session.username : ''
   });
 });
 
@@ -61,9 +61,11 @@ app.post('/login', function(req, res) {
   User.findOne({ name: req.body.user.name }, function(err, user) {
     if (user && user.authenticate(req.body.user.password)) {
       req.session.user_id = user.id;
+      req.session.username = user.name;
       res.redirect('/');
     } else {
       req.flash('error', 'Incorrect credentials');
+      req.session.username = req.body.user.name;
       res.redirect('/login');
     }
   });
@@ -78,11 +80,9 @@ app.get('/logout', function(req, res) {
 
 app.get('/users/new', function(req, res) {
   res.render('users/new.jade', {
-    locals: {
-      title: 'Sign Up',
-      user: new User(),
-      message: req.flash('error')
-    }
+    title: 'Sign Up',
+    user: new User(),
+    error: req.flash('error')
   });
 });
 
@@ -106,7 +106,7 @@ sessionSockets.on('connection', function (err, socket, session) {
   if (!session) return;
 
   socket.on('add-track', function(track, next) {
-    Track.findOne({ permalink_url:  track.permalink_url }, function(err, res) {
+    Track.findOne({ permalink_url: track.permalink_url }, function(err, res) {
       if (!res) {
         track.users = [session.user_id]
         var newTrack = new Track(track);
@@ -115,13 +115,25 @@ sessionSockets.on('connection', function (err, socket, session) {
         });
       } else {
         User.findById(session.user_id, function(err, user){
-          Track.update( { permalink_url:  track.permalink_url },
+          Track.update( { permalink_url: track.permalink_url },
             { $addToSet: { users: user } },
             function(err) {
               if (!err) next();
             });
         });
       }
+    });
+  });
+  socket.on('get-user-tracks', function(next) {
+    User.findById(session.user_id, function(err, user){
+      user.getTracks(function(tracks) {
+        socket.emit('user-tracks', tracks.map(function(track){
+          return {
+            title: track.title,
+            permalink_url: track.permalink_url
+          }
+        }));
+      });
     });
   });
 

@@ -43,6 +43,13 @@ function defineModels(mongoose, fn) {
     return crypto.createHmac('sha1', this.salt).update(password).digest('hex');
   });
 
+  User.method('getTracks', function(callback, limit) {
+    limit = limit || 5;
+    Track.find({ users: { $in:[this._id]} }, {}, { limit : 2 }, function(err, res) {
+      callback(res);
+    });
+  });
+
   User.pre('save', function(next) {
     if (!validatePresenceOf(this.password)) {
       next(new Error('Invalid password'));
