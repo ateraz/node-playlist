@@ -91,7 +91,7 @@ app.post('/users', function(req, res) {
 
   function userSaveFailed() {
     req.flash('error', 'Account creation failed');
-    res.redirect('/users');
+    res.redirect('/users/new');
   }
 
   user.save(function(err) {

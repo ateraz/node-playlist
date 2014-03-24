@@ -44,8 +44,7 @@ function defineModels(mongoose, fn) {
   });
 
   User.method('getTracks', function(callback, limit) {
-    limit = limit || 5;
-    Track.find({ users: { $in:[this._id]} }, {}, { limit : 2 }, function(err, res) {
+    Track.find({ users: { $in:[this._id]} }, function(err, res) {
       callback(res);
     });
   });

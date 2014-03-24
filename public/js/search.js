@@ -4,19 +4,30 @@ function Track(title, url, query) {
   this.query = query;
 }
 
-Track.prototype.play = function(already_added) {
+Track.prototype.play = function(alreadyAdded) {
   $('#player div').hide().empty().append(
     $('<a></a>').attr({ href: this.permalink_url }).addClass('sc-player')
   ).scPlayer({ autoPlay: true });
 
-  if (!already_added) $('#add-track').removeClass('added');
-  else $('#add-track').addClass('added');
+  if (!alreadyAdded) {
+    $('#add-track').removeClass('added');
+  } else {
+    $('#add-track').addClass('added');
+  }
   $('.sc-pause, #player').removeClass('hidden');
+};
+
+Track.prototype.isInTracks = function(tracks) {
+  var _this = this;
+  return tracks.some(function(track){;
+    return _this.permalink_url == track.permalink_url;
+  });
 };
 
 $(document).ready(function() {
 
   var socket = io.connect(),
+      userTracks = [],
       currentTrack,
       thread;
 
@@ -60,13 +71,15 @@ $(document).ready(function() {
       $('#search').val()
     );
 
-    currentTrack.play($(this).is('#user-tracks a'));
+    var alreadyAdded = $(this).is('#user-tracks a') || currentTrack.isInTracks(userTracks);
+    currentTrack.play(alreadyAdded);
   });
 
 
   $('#add-track').click(function() {
     socket.emit('add-track', currentTrack, function(response) {
       $('#add-track').addClass('added');
+      socket.emit('get-user-tracks');
     });
   });
 
@@ -76,7 +89,12 @@ $(document).ready(function() {
   });
 
   socket.emit('get-user-tracks');
-  socket.on('user-tracks', function(tracks){
-    if (tracks.length) containerRenderer($('#user-tracks'))(tracks);
+  socket.on('user-tracks', function(tracks) {
+    if (tracks.length) {
+      var render = containerRenderer($('#user-tracks'));
+          lastFiveReversed = tracks.slice(Math.max(tracks.lenght - 5, 1)).reverse();
+      userTracks = tracks;
+      render(lastFiveReversed );
+    }
   });
 });

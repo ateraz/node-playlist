@@ -1,5 +1,11 @@
 @footer_height: 60px;
 
+@media (min-width: 1200px){
+  .container {
+    width: 1160px;
+  }
+}
+
 html,
 body {
   height: 100%;
@@ -14,25 +20,39 @@ body {
 
 footer {
   height: @footer_height;
+  margin-top: 40px;
 }
 
-.row .span4 div { width: 300px; }
+.row .span4 div {
+  width: 300px;
+}
 
 .user-form {
-  div { margin-left: 0; }
-  button { margin-left: 15px; }
+  button {
+    margin-left: 15px;
+  }
 }
 
-header h1 { border: 0;}
+header{
+  max-width: 980px;
+  h1 {
+    border: 0;
+  }
+  span {
+    color: #888;
+  }
+}
 
-.col-lg-3 {
+.col-lg-4 {
   border-left: 1px solid #eee;
-  h3 { margin-top: 1px;}
+  h3 {
+    margin-top: 1px;
+  }
 }
 
 .navbar .row {
   float: right;
-  padding: 13px 210px;
+  padding: 13px 90px;
   font-size: 120%;
   i {
     color: white;
@@ -67,15 +87,30 @@ a#add-track {
   display: block;
   float: left;
   height: 45px;
-  margin: 26px;
+  margin: 7px 26px 39px;
   width: 45px;
+  &.added {
+    opacity: 0.4;
+    cursor: default;
+  }
 }
 
-a#add-track.added {
-  opacity: 0.4;
-  cursor: default;
+.sc-title {
+  padding: 8px 0 0 50px;
 }
 
-.sc-title { padding: 8px 0 0 50px; }
+#user-tracks {
+  i {
+    font-size: 110%
+  }
+  div{
+    font-size: 102%;
+  }
+}
 
-#user-tracks { font-size: 65%; }
+#player, #user-tracks{
+  margin-left: 0;
+  .sc-player  {
+    margin: 0;
+  }
+}
