@@ -1,12 +1,12 @@
 function Track(title, url, query) {
   this.title = title;
-  this.url = url;
+  this.permalink_url = url;
   this.query = query;
 }
 
 Track.prototype.play = function(already_added) {
   $('#player div').hide().empty().append(
-    $('<a></a>').attr({ href: this.url }).addClass('sc-player')
+    $('<a></a>').attr({ href: this.permalink_url }).addClass('sc-player')
   ).scPlayer({ autoPlay: true });
 
   if (!already_added) $('#add-track').removeClass('added');
