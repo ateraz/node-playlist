@@ -1,4 +1,5 @@
 @footer_height: 60px;
+@gradient: left, #fff, #efefef 50%, #fff;
 
 @media (min-width: 1200px){
   .container {
@@ -9,6 +10,14 @@
 html,
 body {
   height: 100%;
+  background: -webkit-linear-gradient(@gradient);
+  background: -moz-linear-gradient(@gradient);
+  background: -ms-linear-gradient(@gradient);
+  background: -o-linear-gradient(@gradient);
+}
+
+#wrap, footer {
+  background: white;
 }
 
 #wrap {
@@ -23,8 +32,11 @@ footer {
   margin-top: 40px;
 }
 
-.row .span4 div {
-  width: 300px;
+.span4 {
+  margin-left: 7px;
+  div {
+    width: 300px;
+  }
 }
 
 .user-form {
@@ -34,7 +46,7 @@ footer {
 }
 
 header{
-  max-width: 980px;
+  max-width: 970px;
   h1 {
     border: 0;
   }
