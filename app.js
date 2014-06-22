@@ -8,7 +8,7 @@ var connect = require('connect'),
     app =  express(),
     io = sio.listen(app.listen(3000), { log: false }),
     cookieParser = express.cookieParser('topsecret'),
-    sessionStore = new connect.middleware.session.MemoryStore(),
+    sessionStore = new express.session.MemoryStore(),
     SessionSockets = require('session.socket.io'),
     sessionSockets = new SessionSockets(io, sessionStore, cookieParser),
     db;

@@ -1,27 +1,32 @@
 extends layout
 block content
-  #player.row.hidden
-    div
+  #player.row(ng-show='currentTrack')
+    h3(ng-bind='currentTrack.title')
+    .controls
+      .buttons
+        img.button(src='css/sc-player-minimal/img/play-hover.png' ng-click='player.play(currentTrack)' ng-hide='player.playing')
+        img.button(src='css/sc-player-minimal/img/pause-hover.png' ng-click='player.pause()' ng-show='player.playing')
+      progress(value='{{ currentTime }}' max='{{ currentTrack.duration }}')
+      img.waveform(ng-src='{{ currentTrack.waveform_url }}')
     a#add-track
   .row
-    .col-lg-7
-      input#search.form-control(placeholder='type to search')
+    .col-lg-7(ng-controller='SearchController')
+      input#search.form-control(placeholder='type to search' ng-model='query')
       #tracks
+        .sc-player.loading.sc-play(ng-repeat='track in tracks')
+          .sc-controls
+            a.sc-play(ng-click='player.play(track)') Play
+          div.sc-title {{track.title}}
     .col-lg-4
       h3
         i Recently added tracks:
       #user-tracks
         i No tracks here so far
+  script(src='//ajax.googleapis.com/ajax/libs/angularjs/1.2.9/angular.min.js')
   script(src='/js/soundcloud.sdk.js')
   script(src='/js/mustache.js')
   script(src='/js/soundcloud.player.api.js')
   script(src='/js/sc-player.js')
-  script(src='/js/search.js')
+  script(src='/js/app.js')
   script(src='/socket.io/socket.io.js')
   script(id='track-tpl', type='text/template')
-    .sc-player.loading.sc-play
-      .sc-controls
-        a.sc-play.set-track(data-url='{{permalink_url}}', data-title='{{title}}') Play
-      div.sc-title {{title}}
-  style.
-    header h1 { padding-top: 30px; }

@@ -11,7 +11,7 @@ html(lang='en')
     script(src='/js/bootstrap.min.js')
   body
     #wrap
-      .container
+      .container(ng-app='playlist' ng-controller='PlaylistController')
         if username
           .navbar.navbar-inverse.navbar-fixed-top
             .container
@@ -36,4 +36,4 @@ html(lang='en')
         block content
     footer
       .container
-        p.muted.credit Running on node with Express and Jade
+        p.muted.credit Running on Node & Angular
