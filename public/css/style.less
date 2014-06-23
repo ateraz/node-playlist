@@ -78,8 +78,7 @@ a.set-track {
   cursor: pointer;
 }
 
-div.sc-player {
-  width: 60%;
+#tracks .sc-player {
   float: left;
   #tracks {
     height: 100%;
@@ -99,7 +98,7 @@ a#add-track {
   display: block;
   float: left;
   height: 45px;
-  margin: 7px 26px 39px;
+  margin: -4px 26px 39px;
   width: 45px;
   &.added {
     opacity: 0.4;
@@ -125,4 +124,39 @@ a#add-track {
   .sc-player  {
     margin: 0;
   }
+}
+
+header h1 { padding-top: 30px; }
+
+
+@waveform-height: 40px;
+.progress {
+  width: 100%;
+  height: @waveform-height;
+}
+
+#player{
+  float: left;
+  progress {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    .progress;
+    &&::-webkit-progress-bar {
+      background-color: #428bca;
+    }
+  }
+  .waveform{
+    position: relative;
+    top: -1 * @waveform-height - 6px;
+    .progress;
+  }
+  .buttons {
+    float: left;
+  }
+}
+
+.controls {
+  width: 55%;
+  float: left;
 }
