@@ -6,9 +6,10 @@ block content
       .buttons
         img.button(src='css/sc-player-minimal/img/play-hover.png' ng-click='player.play(currentTrack)' ng-hide='player.playing')
         img.button(src='css/sc-player-minimal/img/pause-hover.png' ng-click='player.pause()' ng-show='player.playing')
-      progress(value='{{ currentTime }}' max='{{ currentTrack.duration }}')
-      img.waveform(ng-src='{{ currentTrack.waveform_url }}')
-    a#add-track
+      .waveform
+        progress(value='{{ currentTime }}' max='{{ currentTrack.duration }}')
+        img(ng-src='{{ currentTrack.waveform_url }}')
+      a#add-track
   .row
     .col-lg-7(ng-controller='SearchController')
       input#search.form-control(placeholder='type to search' ng-model='query')

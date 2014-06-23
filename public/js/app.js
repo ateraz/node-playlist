@@ -1,4 +1,5 @@
-var playlist = angular.module('playlist', []);
+var playlist = angular.module('playlist', []),
+    clientID = 'YOUR_CLIENT_ID';
 
 function PlaylistController($scope, $document) {
 
@@ -8,7 +9,7 @@ function PlaylistController($scope, $document) {
       paused: false,
       play: function(track) {
         $scope.currentTrack = track;
-        if (player.paused != $scope.currentTrack) audio.src = $scope.currentTrack.stream_url + '?client_id=YOUR_CLIENT_ID';
+        if (player.paused != $scope.currentTrack) audio.src = $scope.currentTrack.stream_url + '?client_id=' + clientID;
         audio.play();
         player.playing = $scope.currentTrack;
         player.paused = false;
@@ -35,25 +36,22 @@ function PlaylistController($scope, $document) {
   $scope.duration = 0;
 }
 
-function SearchController($scope, $timeout, $rootScope) {
-  SC.initialize({
-    client_id: 'YOUR_CLIENT_ID'
-  });
+function SearchController($scope, $timeout, $http) {
 
   $scope.query = '';
-  var timer = false,
-    updateTracks = function (tracks) {
-      $scope.$apply(function () {
-        $scope.tracks = tracks;
-      });
-    };
+  var timer = false;
 
   $scope.$watch('query', function() {
     if(timer){
       $timeout.cancel(timer)
     }  
     timer = $timeout(function() {
-      scSeach($scope.query, updateTracks);
+      var params = { client_id: clientID, limit: 5, order: 'hotness', q: $scope.query};
+      $http.get('//api.soundcloud.com/tracks.json', { params: params }).success(function (tracks) {
+        $scope.$apply(function () {
+          $scope.tracks = tracks;
+        });
+      });
     }, 500);
   });
 }

@@ -92,20 +92,6 @@ input#search {
   line-height: 25px;
 }
 
-a#add-track {
-  background-image: url('img/plus-icon.png');
-  cursor: pointer;
-  display: block;
-  float: left;
-  height: 45px;
-  margin: -4px 26px 39px;
-  width: 45px;
-  &.added {
-    opacity: 0.4;
-    cursor: default;
-  }
-}
-
 .sc-title {
   padding: 8px 0 0 50px;
 }
@@ -137,26 +123,46 @@ header h1 { padding-top: 30px; }
 
 #player{
   float: left;
-  progress {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    .progress;
-    &&::-webkit-progress-bar {
-      background-color: #428bca;
-    }
-  }
-  .waveform{
-    position: relative;
-    top: -1 * @waveform-height - 6px;
-    .progress;
-  }
   .buttons {
     float: left;
+    width: 40px;
+  }
+  .waveform{
+    float: left;
+    width: 86%;
+    progress {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      .progress;
+    }
+    img {
+      position: relative;
+      top: -1 * @waveform-height - 5px;
+      .progress;
+    }
+  }
+}
+
+a#add-track {
+  background-image: url('img/plus-icon.png');
+  cursor: pointer;
+  display: block;
+  float: left;
+  height: 45px;
+  margin: -5px 0 0 12px;
+  width: 45px;
+  &.added {
+    opacity: 0.4;
+    cursor: default;
+  }
+  &::after {
+    clear: left;
   }
 }
 
 .controls {
-  width: 55%;
+  width: 61%;
   float: left;
+  margin: 10px 0 -15px;
 }
