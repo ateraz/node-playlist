@@ -1,15 +1,15 @@
 extends layout
 block content
-  #player.row(ng-show='currentTrack')
+  #player.row(ng-show='player.track')
     h3(ng-bind='currentTrack.title')
     .controls
       .buttons
-        img.button(src='css/sc-player-minimal/img/play-hover.png' ng-click='player.play(currentTrack)' ng-hide='player.playing')
+        img.button(src='css/sc-player-minimal/img/play-hover.png' ng-click='player.play(player.track)' ng-hide='player.playing')
         img.button(src='css/sc-player-minimal/img/pause-hover.png' ng-click='player.pause()' ng-show='player.playing')
       .waveform
-        progress(value='{{ currentTime }}' max='{{ currentTrack.duration }}')
-        img(ng-src='{{ currentTrack.waveform_url }}')
-      a#add-track
+        progress(value='{{ currentTime }}' max='{{ player.track.duration }}')
+        img(ng-src='{{ player.track.waveform_url }}')
+      a#add-track(ng-controller='AddTrackController' ng-click='addTrack()')
   .row
     .col-lg-7(ng-controller='SearchController')
       input#search.form-control(placeholder='type to search' ng-model='query')
@@ -22,12 +22,12 @@ block content
       h3
         i Recently added tracks:
       #user-tracks
-        i No tracks here so far
+        i(ng-hide='userTracks') No tracks here so far
+        .sc-player.loading.sc-play(ng-repeat='track in userTracks')
+          .sc-controls
+            a.sc-play(ng-click='player.play(track)') Play
+          div.sc-title {{track.title}}
   script(src='//ajax.googleapis.com/ajax/libs/angularjs/1.2.9/angular.min.js')
-  script(src='/js/soundcloud.sdk.js')
-  script(src='/js/mustache.js')
-  script(src='/js/soundcloud.player.api.js')
-  script(src='/js/sc-player.js')
   script(src='/js/app.js')
   script(src='/socket.io/socket.io.js')
   script(id='track-tpl', type='text/template')

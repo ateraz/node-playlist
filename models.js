@@ -61,6 +61,9 @@ function defineModels(mongoose, fn) {
     'permalink_url': { type: String, index: { unique: true } },
     'title': String,
     'query': String,
+    'stream_url': { type: String},
+    'waveform_url': { type: String},
+    'duration': Number,
     'users': [{ type: ObjectId, ref: 'User' }]
   });
 

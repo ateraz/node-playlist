@@ -115,7 +115,13 @@ sessionSockets.on('connection', function (err, socket, session) {
         });
       } else {
         User.findById(session.user_id, function(err, user){
-          Track.update( { permalink_url: track.permalink_url },
+          var params = {
+            permalink_url: track.permalink_url,
+            stream_url: track.stream_url,
+            waveform_url: track.waveform_url,
+            duration: track.duration
+          };
+          Track.update( params,
             { $addToSet: { users: user } },
             function(err) {
               if (!err) next();
@@ -130,7 +136,10 @@ sessionSockets.on('connection', function (err, socket, session) {
         socket.emit('user-tracks', tracks.map(function(track){
           return {
             title: track.title,
-            permalink_url: track.permalink_url
+            permalink_url: track.permalink_url,
+            stream_url: track.stream_url,
+            waveform_url: track.waveform_url,
+            duration: track.duration
           }
         }));
       });
