@@ -1,15 +1,17 @@
 extends layout
 block content
-  #player.row(ng-show='player.track')
-    h3(ng-bind='currentTrack.title')
+  #player.row(ng-show='player.track' player-background data-interval='10')
     .controls
+      .title
+        h3(style='float:left')  {{ player.track.title }}
+        h4(style="float:right") {{ currentTime | playTime }} | {{ player.track.duration | playTime }}
       .buttons
         img.button(src='css/sc-player-minimal/img/play-hover.png' ng-click='player.play(player.track)' ng-hide='player.playing')
         img.button(src='css/sc-player-minimal/img/pause-hover.png' ng-click='player.pause()' ng-show='player.playing')
-      .waveform
+      .waveform(ng-click='player.seekTo($event)')
         progress(value='{{ currentTime }}' max='{{ player.track.duration }}')
         img(ng-src='{{ player.track.waveform_url }}')
-      a#add-track(ng-controller='AddTrackController' ng-click='addTrack()')
+      a#add-track(ng-controller='AddTrackController' ng-click='addTrack()' ng-class='{added: isMyTrack()}' title='{{!isMyTrack() && "Add to my tracks" || ""}}')
   .row
     .col-lg-7(ng-controller='SearchController')
       input#search.form-control(placeholder='type to search' ng-model='query')

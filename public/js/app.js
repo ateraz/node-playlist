@@ -47,6 +47,10 @@ app.factory('player', function($document, $http) {
           player.playing = false;
         };
       },
+      seekTo: function($event){
+        var xpos = $event.offsetX / $event.target.offsetWidth;
+        audio.currentTime = (xpos * audio.duration);
+      },
       search: function(query, callback) {
         if(!query) return;
         var params = { client_id: clientID, limit: 5, order: 'hotness', q: query};
@@ -102,9 +106,48 @@ app.controller('SearchController', function($scope, $timeout, $http) {
 
 
 app.controller('AddTrackController', function($scope, socket) {
+  $scope.isMyTrack = function() {
+    return $scope.player.track && $scope.userTracks.some(function(track){;
+      return $scope.player.track.permalink_url == track.permalink_url;
+    });
+  };
   $scope.addTrack = function() {
+    if($scope.isMyTrack()) return;
     socket.emit('add-track', $scope.player.track, function(response) {
       socket.emit('get-user-tracks');
     });
+  }
+});
+
+app.filter('playTime', function() {
+  return function(ms) {
+    var hours = Math.floor(ms / 36e5),
+        mins = '0' + Math.floor((ms % 36e5) / 6e4),
+        secs = '0' + Math.floor((ms % 6e4) / 1000);
+    mins = mins.substr(mins.length - 2);
+    secs = secs.substr(secs.length - 2);
+    if(!isNaN(secs)){
+      if (hours){
+        return hours+':'+mins+':'+secs;  
+      } else {
+        return mins+':'+secs;  
+      };
+    } else {
+      return '00:00';
+    };
+  };
+});
+
+app.directive('playerBackground', function($document, $interval) {
+  return function (scope, elem, attrs) {
+    var images = ["4ZHwu0uut3k", "CjzzgssrhVQ", "-xfKU31v3Hc"],
+        index = 1;
+    $interval(function(){
+      elem.css({
+        'background-image': 'url(http://i1.ytimg.com/vi/' + images[index] +'/maxresdefault.jpg)'
+      });
+      index = (index + 1) % images.length;
+      console.log(images[index]);
+    }, attrs.interval * 1000);
   }
 });

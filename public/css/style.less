@@ -23,7 +23,7 @@ body {
 #wrap {
   min-height: 100%;
   height: auto;
-  margin: 0 auto -@footer_height;
+  margin: 0 auto -1 * @footer_height - 40px;
   padding: 0 0 @footer_height;
 }
 
@@ -121,11 +121,37 @@ header h1 { padding-top: 30px; }
   height: @waveform-height;
 }
 
+.invert {
+  -webkit-filter: invert(100%);
+  filter: invert(100%);
+}
+
+@player-height: 520px;
+
 #player{
   float: left;
+  background-image: url(http://i1.ytimg.com/vi/4ZHwu0uut3k/maxresdefault.jpg);
+  background-size: contain;
+  background-repeat: no-repeat;
+  height: @player-height;
+  margin-bottom: 35px;
+  .title {
+    color: white;
+    float: left;
+    width: 100%;
+    h3 {
+      color: white;
+      margin-left: 40px;
+    }
+    h4 {
+      float: right;
+       margin: 25px 60px 0;
+    }
+  }
   .buttons {
     float: left;
     width: 40px;
+    .invert;
   }
   .waveform{
     float: left;
@@ -135,17 +161,22 @@ header h1 { padding-top: 30px; }
       -moz-appearance: none;
       appearance: none;
       .progress;
+      &::-webkit-progress-value {
+        background-color: #2062E9;
+      }
     }
     img {
       position: relative;
       top: -1 * @waveform-height - 5px;
       .progress;
+      .invert
     }
   }
 }
 
 a#add-track {
   background-image: url('img/plus-icon.png');
+  .invert;
   cursor: pointer;
   display: block;
   float: left;
@@ -162,7 +193,8 @@ a#add-track {
 }
 
 .controls {
-  width: 61%;
-  float: left;
-  margin: 10px 0 -15px;
+  width: 65%;
+  position: relative;
+  top: @player-height - 100px;
+  left: 100px;
 }
